@@ -63,7 +63,7 @@ class HostbaseClient
 			$uri .= "/$fqdn";
 		}
 
-		$response = Request::get($uri)->send();
+		$response = Request::get($uri)->authenticateWith($this->username, $this->password)->send();
 
 		if ($response instanceof Response && $response->hasErrors()) {
 			throw new \Exception($response);
@@ -105,6 +105,7 @@ class HostbaseClient
 	public function update($fqdn, array $data)
 	{
 		$response = Request::put("{$this->uri}/$fqdn")
+			->authenticateWith($this->username, $this->password)
 			->body(json_encode($data))
 			->sendsType('application/json')
 			->send();
@@ -125,7 +126,9 @@ class HostbaseClient
 	 */
 	public function destroy($fqdn)
 	{
-		$response = Request::delete("{$this->uri}/$fqdn")->send();
+		$response = Request::delete("{$this->uri}/$fqdn")->authenticateWith(
+			$this->username, $this->password
+		)->send();
 
 		if ($response instanceof Response && $response->hasErrors()) {
 			throw new \Exception($response);

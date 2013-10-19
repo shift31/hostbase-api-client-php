@@ -1,0 +1,12 @@
+{
+    "name": "shift31/hostbase-api-client",
+    "description": "The Hostbase PHP API Client Library",
+    "require": {
+        "php": ">=5.3.0",
+        "nategood/httpful": "0.2.10"
+     },
+    "license": "MIT",
+    "autoload": {
+        "psr-0": {"Shift31": "src/"}
+    }
+}

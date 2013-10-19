@@ -4,44 +4,48 @@ namespace Shift31;
 
 use Httpful\Request;
 
-class HostbaseClient {
+class HostbaseClient
+{
 
 
-    protected $uri;
+	protected $uri;
 
-    protected $username;
+	protected $username;
 
-    protected $password;
-
-
-    /**
-     * @param string $baseUrl
-     * @param string|null $username
-     * @param string|null $password
-     */
-    public function __construct($baseUrl, $username = null, $password = null)
-    {
-        $this->uri = "$baseUrl/hosts";
-        $this->username = $username;
-        $this->password = $password;
-    }
+	protected $password;
 
 
-    /**
-     * @param string $query
-     * @return mixed
-     * @throws \Exception
-     */
-    public function search($query)
-    {
-        $response = Request::get("{$this->uri}?q=" . urlencode($query))->authenticateWith($this->username, $this->password)->send();
+	/**
+	 * @param string $baseUrl
+	 * @param string|null $username
+	 * @param string|null $password
+	 */
+	public function __construct($baseUrl, $username = null, $password = null)
+	{
+		$this->uri = "$baseUrl/hosts";
+		$this->username = $username;
+		$this->password = $password;
+	}
 
-        if ($response->hasErrors()) {
-            throw new \Exception($response);
-        } else {
-            return $response->body;
-        }
-    }
+
+	/**
+	 * @param string $query
+	 *
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	public function search($query)
+	{
+		$response = Request::get("{$this->uri}?q=" . urlencode($query))->authenticateWith(
+			$this->username, $this->password
+		)->send();
+
+		if ($response->hasErrors()) {
+			throw new \Exception($response);
+		} else {
+			return $response->body;
+		}
+	}
 
 
 	/**
@@ -63,7 +67,7 @@ class HostbaseClient {
 		if ($response->hasErrors()) {
 			throw new \Exception($response);
 		} else {
-			return (array) $response->body;
+			return (array)$response->body;
 		}
 	}
 
@@ -75,24 +79,24 @@ class HostbaseClient {
 	 * @throws \Exception
 	 */
 	public function store(array $data)
-    {
-	    $response = Request::post($this->uri)
-		    ->authenticateWith($this->username, $this->password)
-	        ->body(json_encode($data))
-	        ->sendsType('application/json')
-		    ->send();
+	{
+		$response = Request::post($this->uri)
+			->authenticateWith($this->username, $this->password)
+			->body(json_encode($data))
+			->sendsType('application/json')
+			->send();
 
-	    if ($response->hasErrors()) {
-		    throw new \Exception($response);
-	    } else {
-		    return (array) $response->body;
-	    }
-    }
+		if ($response->hasErrors()) {
+			throw new \Exception($response);
+		} else {
+			return (array)$response->body;
+		}
+	}
 
 
 	/**
 	 * @param string $fqdn
-	 * @param array $data
+	 * @param array  $data
 	 *
 	 * @return mixed
 	 * @throws \Exception
@@ -107,7 +111,7 @@ class HostbaseClient {
 		if ($response->hasErrors()) {
 			throw new \Exception($response);
 		} else {
-			return (array) $response->body;
+			return (array)$response->body;
 		}
 	}
 

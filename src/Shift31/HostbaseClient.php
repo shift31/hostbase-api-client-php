@@ -2,7 +2,6 @@
 
 namespace Shift31;
 
-use Httpful\Httpful;
 use Httpful\Request;
 use Httpful\Response;
 
@@ -42,7 +41,7 @@ class HostbaseClient
 			$this->username, $this->password
 		)->send();
 
-		if ($response->hasErrors()) {
+		if ($response instanceof Response && $response->hasErrors()) {
 			throw new \Exception($response);
 		} else {
 			return $response->body;
@@ -66,7 +65,7 @@ class HostbaseClient
 
 		$response = Request::get($uri)->send();
 
-		if ($response->hasErrors()) {
+		if ($response instanceof Response && $response->hasErrors()) {
 			throw new \Exception($response);
 		} else {
 			return $response->body;
@@ -88,7 +87,7 @@ class HostbaseClient
 			->sendsType('application/json')
 			->send();
 
-		if ($response->hasErrors()) {
+		if ($response instanceof Response && $response->hasErrors()) {
 			throw new \Exception($response);
 		} else {
 			return $response->body;
@@ -110,7 +109,7 @@ class HostbaseClient
 			->sendsType('application/json')
 			->send();
 
-		if ($response->hasErrors()) {
+		if ($response instanceof Response && $response->hasErrors()) {
 			throw new \Exception($response);
 		} else {
 			return $response->body;
@@ -128,7 +127,7 @@ class HostbaseClient
 	{
 		$response = Request::delete("{$this->uri}/$fqdn")->send();
 
-		if ($response->hasErrors()) {
+		if ($response instanceof Response && $response->hasErrors()) {
 			throw new \Exception($response);
 		} else {
 			return true;

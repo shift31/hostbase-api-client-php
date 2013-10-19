@@ -1,4 +1,4 @@
-workbench.php
-vendor
-composer.lock
-.idea
+/workbench.php
+/vendor
+/composer.lock
+/.idea

@@ -2,7 +2,9 @@
 
 namespace Shift31;
 
+use Httpful\Httpful;
 use Httpful\Request;
+use Httpful\Response;
 
 class HostbaseClient
 {
@@ -31,7 +33,7 @@ class HostbaseClient
 	/**
 	 * @param string $query
 	 *
-	 * @return mixed
+	 * @return array
 	 * @throws \Exception
 	 */
 	public function search($query)
@@ -51,7 +53,7 @@ class HostbaseClient
 	/**
 	 * @param string|null $fqdn
 	 *
-	 * @return mixed
+	 * @return \stdClass
 	 * @throws \Exception
 	 */
 	public function show($fqdn = null)
@@ -67,7 +69,7 @@ class HostbaseClient
 		if ($response->hasErrors()) {
 			throw new \Exception($response);
 		} else {
-			return (array)$response->body;
+			return $response->body;
 		}
 	}
 
@@ -75,7 +77,7 @@ class HostbaseClient
 	/**
 	 * @param array $data
 	 *
-	 * @return mixed
+	 * @return \stdClass
 	 * @throws \Exception
 	 */
 	public function store(array $data)
@@ -89,7 +91,7 @@ class HostbaseClient
 		if ($response->hasErrors()) {
 			throw new \Exception($response);
 		} else {
-			return (array)$response->body;
+			return $response->body;
 		}
 	}
 
@@ -98,7 +100,7 @@ class HostbaseClient
 	 * @param string $fqdn
 	 * @param array  $data
 	 *
-	 * @return mixed
+	 * @return \stdClass
 	 * @throws \Exception
 	 */
 	public function update($fqdn, array $data)
@@ -111,15 +113,15 @@ class HostbaseClient
 		if ($response->hasErrors()) {
 			throw new \Exception($response);
 		} else {
-			return (array)$response->body;
+			return $response->body;
 		}
 	}
 
 
 	/**
-	 * @param $fqdn
+	 * @param string $fqdn
 	 *
-	 * @return mixed
+	 * @return bool
 	 * @throws \Exception
 	 */
 	public function destroy($fqdn)

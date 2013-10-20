@@ -31,13 +31,14 @@ class HostbaseClient
 
 	/**
 	 * @param string $query
+	 * @param int    $limit
 	 *
-	 * @return array
 	 * @throws \Exception
+	 * @return array
 	 */
-	public function search($query)
+	public function search($query, $limit = 10000)
 	{
-		$response = Request::get("{$this->uri}?q=" . urlencode($query))->authenticateWith(
+		$response = Request::get("{$this->uri}?q=" . urlencode($query) . "&size=$limit")->authenticateWith(
 			$this->username, $this->password
 		)->send();
 

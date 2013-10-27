@@ -7,25 +7,74 @@ use Httpful\Response;
 
 class HostbaseClient
 {
+	/**
+	 * @var string
+	 */
+	protected $baseUrl;
 
+	/**
+	 * @var string
+	 */
+	protected $resource;
 
+	/**
+	 * @var string
+	 */
 	protected $uri;
 
+	/**
+	 * @var null|string
+	 */
 	protected $username;
 
+	/**
+	 * @var null|string
+	 */
 	protected $password;
 
 
 	/**
-	 * @param string $baseUrl
+	 * @param string      $baseUrl
+	 * @param string      $resource
 	 * @param string|null $username
 	 * @param string|null $password
 	 */
-	public function __construct($baseUrl, $username = null, $password = null)
+	public function __construct($baseUrl, $resource = 'hosts', $username = null, $password = null)
 	{
-		$this->uri = "$baseUrl/hosts";
+		$this->baseUrl = $baseUrl;
+		$this->resource = $resource;
+		$this->setUri();
 		$this->username = $username;
 		$this->password = $password;
+	}
+
+
+	protected function setUri()
+	{
+		$this->uri = "{$this->baseUrl}/{$this->resource}";
+	}
+
+
+	/**
+	 * @param $resource
+	 *
+	 * @return HostbaseClient $this
+	 */
+	public function setResource($resource)
+	{
+		$this->resource = $resource;
+		$this->setUri();
+
+		return $this;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getResource()
+	{
+		return $this->resource;
 	}
 
 
@@ -51,17 +100,17 @@ class HostbaseClient
 
 
 	/**
-	 * @param string|null $fqdn
+	 * @param string|null $id
 	 *
 	 * @return \stdClass
 	 * @throws \Exception
 	 */
-	public function show($fqdn = null)
+	public function show($id = null)
 	{
 		$uri = $this->uri;
 
-		if ($fqdn != null) {
-			$uri .= "/$fqdn";
+		if ($id != null) {
+			$uri .= "/$id";
 		}
 
 		$response = Request::get($uri)->authenticateWith($this->username, $this->password)->send();
@@ -97,15 +146,15 @@ class HostbaseClient
 
 
 	/**
-	 * @param string $fqdn
+	 * @param string $id
 	 * @param array  $data
 	 *
 	 * @return \stdClass
 	 * @throws \Exception
 	 */
-	public function update($fqdn, array $data)
+	public function update($id, array $data)
 	{
-		$response = Request::put("{$this->uri}/$fqdn")
+		$response = Request::put("{$this->uri}/$id")
 			->authenticateWith($this->username, $this->password)
 			->body(json_encode($data))
 			->sendsType('application/json')
@@ -120,14 +169,14 @@ class HostbaseClient
 
 
 	/**
-	 * @param string $fqdn
+	 * @param string $id
 	 *
 	 * @return bool
 	 * @throws \Exception
 	 */
-	public function destroy($fqdn)
+	public function destroy($id)
 	{
-		$response = Request::delete("{$this->uri}/$fqdn")->authenticateWith(
+		$response = Request::delete("{$this->uri}/$id")->authenticateWith(
 			$this->username, $this->password
 		)->send();
 

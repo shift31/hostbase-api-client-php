@@ -88,6 +88,8 @@ class HostbaseClient
 	 */
 	public function search($query, $limit = 10000, $showData = true)
 	{
+		$showData = $showData === true ? 1 : 0;
+
 		$response = Request::get("{$this->uri}?q=" . urlencode($query) . "&size=$limit" . "&showData=$showData")
 			->authenticateWith($this->username, $this->password
 		)->send();

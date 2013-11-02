@@ -81,14 +81,15 @@ class HostbaseClient
 	/**
 	 * @param string $query
 	 * @param int    $limit
+	 * @param bool   $showData
 	 *
 	 * @throws \Exception
 	 * @return array
 	 */
-	public function search($query, $limit = 10000)
+	public function search($query, $limit = 10000, $showData = true)
 	{
-		$response = Request::get("{$this->uri}?q=" . urlencode($query) . "&size=$limit")->authenticateWith(
-			$this->username, $this->password
+		$response = Request::get("{$this->uri}?q=" . urlencode($query) . "&size=$limit" . "&showData=$showData")
+			->authenticateWith($this->username, $this->password
 		)->send();
 
 		if ($response instanceof Response && $response->hasErrors()) {

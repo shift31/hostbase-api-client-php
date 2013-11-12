@@ -127,12 +127,12 @@ class HostbaseClient
 
 
 	/**
-	 * @param array $data
+	 * @param mixed $data
 	 *
 	 * @return \stdClass
 	 * @throws \Exception
 	 */
-	public function store(array $data)
+	public function store($data)
 	{
 		$response = Request::post($this->uri)
 			->authenticateWith($this->username, $this->password)
@@ -150,12 +150,12 @@ class HostbaseClient
 
 	/**
 	 * @param string $id
-	 * @param array  $data
+	 * @param mixed  $data
 	 *
 	 * @return \stdClass
 	 * @throws \Exception
 	 */
-	public function update($id, array $data)
+	public function update($id, $data)
 	{
 		$response = Request::put("{$this->uri}/$id")
 			->authenticateWith($this->username, $this->password)

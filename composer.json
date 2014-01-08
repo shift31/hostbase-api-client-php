@@ -8,5 +8,10 @@
     "license": "MIT",
     "autoload": {
         "psr-0": {"Shift31": "src/"}
-    }
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

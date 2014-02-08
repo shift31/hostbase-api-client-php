@@ -3,10 +3,15 @@
     "description": "The Hostbase API Client Library for PHP",
     "require": {
         "php": ">=5.3.0",
-        "nategood/httpful": "0.2.10"
+        "nategood/httpful": "0.2.11"
      },
     "license": "MIT",
     "autoload": {
         "psr-0": {"Shift31": "src/"}
-    }
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

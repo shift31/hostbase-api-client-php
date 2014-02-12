@@ -113,6 +113,7 @@ class HostbaseClient
 		$uri = $this->uri;
 
 		if ($id != null) {
+			$this->fixSubnetIdForHttp($id);
 			$uri .= "/$id";
 		}
 
@@ -157,6 +158,8 @@ class HostbaseClient
 	 */
 	public function update($id, $data)
 	{
+		$this->fixSubnetIdForHttp($id);
+
 		$response = Request::put("{$this->uri}/$id")
 			->authenticateWith($this->username, $this->password)
 			->body(json_encode($data))
@@ -179,6 +182,8 @@ class HostbaseClient
 	 */
 	public function destroy($id)
 	{
+		$this->fixSubnetIdForHttp($id);
+
 		$response = Request::delete("{$this->uri}/$id")->authenticateWith(
 			$this->username, $this->password
 		)->send();
@@ -188,5 +193,10 @@ class HostbaseClient
 		} else {
 			return true;
 		}
+	}
+
+	protected function fixSubnetIdForHttp(&$id)
+	{
+		if ($this->getResource() == 'subnets') $id = str_replace('/', '_', $id);
 	}
 }

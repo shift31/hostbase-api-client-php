@@ -2,6 +2,9 @@
 
 namespace Shift31;
 
+use Httpful\Handlers\JsonHandler;
+use Httpful\Httpful;
+use Httpful\Mime;
 use Httpful\Request;
 use Httpful\Response;
 
@@ -75,6 +78,18 @@ class HostbaseClient
 	public function getResource()
 	{
 		return $this->resource;
+	}
+
+
+	/**
+	 * @return $this
+	 */
+	public function decodeJsonAsArray()
+	{
+		// Example overriding the default JSON handler with one that encodes the response as an array
+		Httpful::register(Mime::JSON, new JsonHandler(array('decode_as_array' => true)));
+
+		return $this;
 	}
 
 

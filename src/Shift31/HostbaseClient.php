@@ -110,7 +110,7 @@ class HostbaseClient
 		)->send();
 
 		if ($response instanceof Response && $response->hasErrors()) {
-			throw new \Exception($response);
+			throw new \Exception($this->getErrorMessage($response));
 		} else {
 			return $response->body;
 		}
@@ -135,7 +135,7 @@ class HostbaseClient
 		$response = Request::get($uri)->authenticateWith($this->username, $this->password)->send();
 
 		if ($response instanceof Response && $response->hasErrors()) {
-			throw new \Exception($response);
+			throw new \Exception($this->getErrorMessage($response));
 		} else {
 			return $response->body;
 		}
@@ -157,7 +157,7 @@ class HostbaseClient
 			->send();
 
 		if ($response instanceof Response && $response->hasErrors()) {
-			throw new \Exception($response);
+			throw new \Exception($this->getErrorMessage($response));
 		} else {
 			return $response->body;
 		}
@@ -182,7 +182,7 @@ class HostbaseClient
 			->send();
 
 		if ($response instanceof Response && $response->hasErrors()) {
-			throw new \Exception($response);
+			throw new \Exception($this->getErrorMessage($response));
 		} else {
 			return $response->body;
 		}
@@ -204,12 +204,31 @@ class HostbaseClient
 		)->send();
 
 		if ($response instanceof Response && $response->hasErrors()) {
-			throw new \Exception($response);
+			throw new \Exception($this->getErrorMessage($response));
 		} else {
 			return true;
 		}
 	}
 
+
+	/**
+	 * @param Response $response
+	 *
+	 * @return mixed
+	 */
+	protected function getErrorMessage(Response $response)
+	{
+		if ($response->hasBody() && isset($response->body->error->message)) {
+			return $response->body->error->message;
+		} else {
+			return $response->body;
+		}
+	}
+
+
+	/**
+	 * @param $id
+	 */
 	protected function fixSubnetIdForHttp(&$id)
 	{
 		if ($this->getResource() == 'subnets') $id = str_replace('/', '_', $id);

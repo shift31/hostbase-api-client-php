@@ -112,7 +112,7 @@ class HostbaseClient
 		if ($response instanceof Response && $response->hasErrors()) {
 			throw new \Exception($this->getErrorMessage($response));
 		} else {
-			return $response->body;
+			return $response->body->data;
 		}
 	}
 
@@ -137,7 +137,7 @@ class HostbaseClient
 		if ($response instanceof Response && $response->hasErrors()) {
 			throw new \Exception($this->getErrorMessage($response));
 		} else {
-			return $response->body;
+			return $response->body->data;
 		}
 	}
 
@@ -159,7 +159,7 @@ class HostbaseClient
 		if ($response instanceof Response && $response->hasErrors()) {
 			throw new \Exception($this->getErrorMessage($response));
 		} else {
-			return $response->body;
+			return $response->body->data;
 		}
 	}
 
@@ -184,7 +184,7 @@ class HostbaseClient
 		if ($response instanceof Response && $response->hasErrors()) {
 			throw new \Exception($this->getErrorMessage($response));
 		} else {
-			return $response->body;
+			return $response->body->data;
 		}
 	}
 

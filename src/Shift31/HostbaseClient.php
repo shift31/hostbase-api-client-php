@@ -218,10 +218,14 @@ class HostbaseClient
 	 */
 	protected function getErrorMessage(Response $response)
 	{
-		if ($response->hasBody() && isset($response->body->error->message)) {
-			return $response->body->error->message;
+		if ($response->hasBody()) {
+			if (is_array($response->body)) {
+				return isset($response->body['error']['message']) ? $response->body['error']['message'] : $response->raw_body;
+			} else {
+				return isset($response->body->error->message) ? $response->body->error->message : $response->raw_body;
+			}
 		} else {
-			return $response->body;
+			return $response->raw_body;
 		}
 	}
 

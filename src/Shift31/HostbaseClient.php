@@ -109,11 +109,7 @@ class HostbaseClient
 			->authenticateWith($this->username, $this->password
 		)->send();
 
-		if ($response instanceof Response && $response->hasErrors()) {
-			throw new \Exception($this->getErrorMessage($response));
-		} else {
-			return $response->body->data;
-		}
+		return $this->processResponse($response);
 	}
 
 
@@ -128,17 +124,13 @@ class HostbaseClient
 		$uri = $this->uri;
 
 		if ($id != null) {
-			$this->fixSubnetIdForHttp($id);
+			$this->mangleCidrNotation($id);
 			$uri .= "/$id";
 		}
 
 		$response = Request::get($uri)->authenticateWith($this->username, $this->password)->send();
 
-		if ($response instanceof Response && $response->hasErrors()) {
-			throw new \Exception($this->getErrorMessage($response));
-		} else {
-			return $response->body->data;
-		}
+		return $this->processResponse($response);
 	}
 
 
@@ -156,11 +148,7 @@ class HostbaseClient
 			->sendsType('application/json')
 			->send();
 
-		if ($response instanceof Response && $response->hasErrors()) {
-			throw new \Exception($this->getErrorMessage($response));
-		} else {
-			return $response->body->data;
-		}
+		return $this->processResponse($response);
 	}
 
 
@@ -173,7 +161,7 @@ class HostbaseClient
 	 */
 	public function update($id, $data)
 	{
-		$this->fixSubnetIdForHttp($id);
+		$this->mangleCidrNotation($id);
 
 		$response = Request::put("{$this->uri}/$id")
 			->authenticateWith($this->username, $this->password)
@@ -181,11 +169,7 @@ class HostbaseClient
 			->sendsType('application/json')
 			->send();
 
-		if ($response instanceof Response && $response->hasErrors()) {
-			throw new \Exception($this->getErrorMessage($response));
-		} else {
-			return $response->body->data;
-		}
+		return $this->processResponse($response);
 	}
 
 
@@ -197,7 +181,7 @@ class HostbaseClient
 	 */
 	public function destroy($id)
 	{
-		$this->fixSubnetIdForHttp($id);
+		$this->mangleCidrNotation($id);
 
 		$response = Request::delete("{$this->uri}/$id")->authenticateWith(
 			$this->username, $this->password
@@ -208,6 +192,22 @@ class HostbaseClient
 		} else {
 			return true;
 		}
+	}
+
+
+	/**
+	 * @param Response $response
+	 *
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	protected function processResponse(Response $response)
+	{
+		if ($response->hasErrors()) {
+			throw new \Exception($this->getErrorMessage($response));
+		}
+
+		return is_array($response->body) ? $response->body['data'] : $response->body->data;
 	}
 
 
@@ -229,7 +229,7 @@ class HostbaseClient
 	/**
 	 * @param $id
 	 */
-	protected function fixSubnetIdForHttp(&$id)
+	protected function mangleCidrNotation(&$id)
 	{
 		if ($this->getResource() == 'subnets') $id = str_replace('/', '_', $id);
 	}

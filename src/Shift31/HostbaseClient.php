@@ -12,7 +12,7 @@ use Httpful\Response;
  * Class HostbaseClient
  * @package Shift31
  *
- * @todo switch to using Guzzle
+ * @todo switch to Guzzle
  */
 class HostbaseClient
 {

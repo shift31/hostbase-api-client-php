@@ -1,11 +1,17 @@
 {
     "name": "shift31/hostbase-api-client",
     "description": "The Hostbase API Client Library for PHP",
+    "authors": [
+        {
+            "name": "Shift 31 Consulting",
+            "email": "code@shift31.com"
+        }
+    ],
+    "license": "MIT",
     "require": {
         "php": ">=5.3",
         "nategood/httpful": "0.2.*"
     },
-    "license": "MIT",
     "autoload": {
         "psr-0": {"Shift31": "src/"}
     }

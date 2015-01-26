@@ -112,7 +112,7 @@ class HostbaseClient
     {
         $showData = $showData === true ? 1 : 0;
 
-        $uri = "{$this->uri}?q=" . urlencode($query) . "&size=$limit" . "&showData=$showData";
+        $uri = "{$this->uri}?q=" . urlencode($query) . "&limit=$limit" . "&showData=$showData";
 
         if ($include) {
             $uri .= "&include=$include";

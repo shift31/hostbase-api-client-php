@@ -2,7 +2,7 @@
 
 ## Basic usage (if you're using Composer)
 
-- In your project, run `composer require shift31/hostbase-api-client dev-master`
+- In your project, run `composer require shift31/hostbase-api-client:dev-master`
 - Example script:
 
 ```php
